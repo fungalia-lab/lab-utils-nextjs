@@ -1,0 +1,119 @@
+// Lab Catalog Microservice - Prisma Schema (SQLite para desenvolvimento)
+// SQLite with UUID primary keys and automatic timestamps
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Strain - Cepas de fungos/bactérias
+model Strain {
+  id            String   @id @default(cuid())
+  name          String
+  species       String
+  description   String?
+  origin        String?
+  characteristics String // JSON string para características
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("strains")
+}
+
+// Culture Type - Tipos de cultura
+model CultureType {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  medium      String?
+  temperature Int?
+  humidity    Int?
+  ph          Float?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("culture_types")
+}
+
+// Grow Parameter - Parâmetros de crescimento
+model GrowParameter {
+  id           String   @id @default(cuid())
+  name         String
+  type         String
+  unit         String
+  minValue     Float?
+  maxValue     Float?
+  optimalValue Float?
+  description  String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("grow_parameters")
+}
+
+// Substrate - Substratos
+model Substrate {
+  id           String   @id @default(cuid())
+  name         String
+  type         String
+  composition  String?
+  ph           Float?
+  nutrients    String // JSON string para nutrientes
+  description  String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("substrates")
+}
+
+// Consumable Item - Itens consumíveis
+model ConsumableItem {
+  id            String   @id @default(cuid())
+  name          String
+  category      String
+  unit          String
+  supplier      String?
+  catalogNumber String?
+  description   String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("consumable_items")
+}
+
+// Durable Item - Itens duráveis
+model DurableItem {
+  id           String   @id @default(cuid())
+  name         String
+  category     String
+  brand        String?
+  model        String?
+  serialNumber String?
+  location     String?
+  description  String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("durable_items")
+}
+
+// Protocol - Protocolos/Ações
+model Protocol {
+  id          String   @id @default(cuid())
+  name        String
+  type        String
+  steps        String // JSON string para passos
+  duration    Int?
+  temperature Float?
+  equipment   String // JSON string para equipamentos
+  materials   String // JSON string para materiais
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("protocols")
+}

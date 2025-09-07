@@ -58,9 +58,11 @@ Este serviço fornece um conjunto de tabelas que funcionam como "catálogo mestr
 
 ## 📦 Instalação
 
+### 🏠 Desenvolvimento Local (SQLite)
+
 1. Clone o repositório:
 ```bash
-git clone <repository-url>
+git clone https://github.com/fungalia-lab/lab-utils-nextjs.git
 cd lab-utils-nextjs
 ```
 
@@ -69,7 +71,7 @@ cd lab-utils-nextjs
 npm install
 ```
 
-3. Configure o banco de dados:
+3. Configure o banco de dados SQLite:
 ```bash
 # Crie um arquivo .env na raiz do projeto
 echo 'DATABASE_URL="file:./dev.db"' > .env
@@ -80,10 +82,25 @@ echo 'DATABASE_URL="file:./dev.db"' > .env
 npx prisma db push
 ```
 
-5. Inicie o servidor de desenvolvimento:
+5. Popule com dados iniciais:
+```bash
+npm run db:seed
+```
+
+6. Inicie o servidor de desenvolvimento:
 ```bash
 npm run dev
 ```
+
+### 🚀 Produção (PostgreSQL/Vercel)
+
+1. Configure a variável de ambiente `DATABASE_URL` com uma string de conexão PostgreSQL
+2. Execute o build:
+```bash
+npm run build
+```
+
+**Nota:** O schema do Prisma está configurado para PostgreSQL em produção. Para desenvolvimento local, use SQLite conforme as instruções acima.
 
 ## 🔌 API Endpoints
 
