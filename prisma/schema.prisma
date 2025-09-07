@@ -1,0 +1,119 @@
+// Lab Catalog Microservice - Prisma Schema
+// SQLite with UUID primary keys and automatic timestamps
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Strain - Cepas de fungos/bactérias
+model Strain {
+  id            String   @id @default(cuid())
+  name          String
+  species       String
+  description   String?
+  origin        String?
+  characteristics String // JSON string para características
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("strains")
+}
+
+// Culture Type - Tipos de cultura
+model CultureType {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  medium      String?  // Meio de cultura
+  temperature Float?   // Temperatura ideal
+  humidity    Float?   // Umidade ideal
+  ph          Float?   // pH ideal
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("culture_types")
+}
+
+// Grow Parameter - Parâmetros de crescimento
+model GrowParameter {
+  id          String   @id @default(cuid())
+  name        String
+  type        String   // temperatura, umidade, ph, luz, etc.
+  unit        String   // °C, %, lux, etc.
+  minValue    Float?
+  maxValue    Float?
+  optimalValue Float?
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("grow_parameters")
+}
+
+// Substrate - Substratos
+model Substrate {
+  id          String   @id @default(cuid())
+  name        String
+  type        String   // orgânico, inorgânico, sintético
+  composition String?  // Composição química
+  ph          Float?
+  nutrients   String   // JSON string para nutrientes
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("substrates")
+}
+
+// Consumable Items - Itens consumíveis
+model ConsumableItem {
+  id            String   @id @default(cuid())
+  name          String
+  category      String   // reagente, meio de cultura, equipamento descartável
+  unit          String   // ml, g, unidades, etc.
+  supplier      String?
+  catalogNumber String?
+  description   String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("consumable_items")
+}
+
+// Durable Items - Itens duráveis
+model DurableItem {
+  id          String   @id @default(cuid())
+  name        String
+  category    String   // equipamento, utensílio, ferramenta
+  brand       String?
+  model       String?
+  serialNumber String?
+  location    String?  // Localização no laboratório
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("durable_items")
+}
+
+// Protocol - Protocolos/Ações
+model Protocol {
+  id          String   @id @default(cuid())
+  name        String
+  type        String   // inoculação, transferência, análise, etc.
+  steps       String   // JSON string para passos do protocolo
+  duration    Int?     // Duração em minutos
+  temperature Float?   // Temperatura necessária
+  equipment   String   // JSON string para equipamentos necessários
+  materials   String   // JSON string para materiais necessários
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("protocols")
+}
